@@ -1,0 +1,290 @@
+
+
+
+
+
+
+
+
+
+
+// D:\easycom\PFE-Next.js\typescript-version\starter-kit\src\app\(blank-layout-pages)\login\page.tsx
+// Next Imports
+import type { Metadata } from 'next'
+
+// Component Imports
+import Login from '@views/Login'
+
+// Server Action Imports
+import { getServerMode } from '@core/utils/serverHelpers'
+
+export const metadata: Metadata = {
+  title: 'Login',
+  description: 'Login to your account'
+}
+
+const LoginPage = async () => {
+  // Vars
+  const mode = await getServerMode()
+
+  return <Login mode={mode} />
+}
+
+export default LoginPage
+undefined
+
+
+
+
+
+
+
+
+
+// D:\easycom\PFE-Next.js\typescript-version\starter-kit\src\app\(blank-layout-pages)\layout.tsx
+// Type Imports
+import type { ChildrenType } from '@core/types'
+
+// Component Imports
+import Providers from '@components/Providers'
+import BlankLayout from '@layouts/BlankLayout'
+
+// Util Imports
+import { getSystemMode } from '@core/utils/serverHelpers'
+
+type Props = ChildrenType
+
+const Layout = async (props: Props) => {
+  const { children } = props
+
+  // Vars
+  const direction = 'ltr'
+  const systemMode = await getSystemMode()
+
+  return (
+    <Providers direction={direction}>
+      <BlankLayout systemMode={systemMode}>{children}</BlankLayout>
+    </Providers>
+  )
+}
+
+export default Layout
+
+
+
+
+
+
+
+
+
+
+// D:\easycom\PFE-Next.js\typescript-version\starter-kit\src\app\(dashboard)\about\page.tsx
+export default function Page() {
+  return <h1>About page!</h1>
+}
+
+
+
+
+
+
+
+
+
+
+// D:\easycom\PFE-Next.js\typescript-version\starter-kit\src\app\(dashboard)\home\page.tsx
+export default function Page() {
+  return <h1>Home page!</h1>
+}
+
+
+
+
+
+
+
+
+
+
+// D:\easycom\PFE-Next.js\typescript-version\starter-kit\src\app\(dashboard)\pages\account-settings\page.tsx
+// React Imports
+import type { ReactElement } from 'react'
+
+// Next Imports
+import dynamic from 'next/dynamic'
+
+// Component Imports
+import AccountSettings from '@views/pages/account-settings'
+
+const AccountTab = dynamic(() => import('@views/pages/account-settings/account'))
+
+// Vars
+const tabContentList = (): { [key: string]: ReactElement } => ({
+  account: <AccountTab />,
+  
+})
+
+const AccountSettingsPage = () => {
+  return <AccountSettings tabContentList={tabContentList()} />
+}
+
+export default AccountSettingsPage
+undefined
+
+undefinedundefinedundefined
+
+
+
+
+
+
+
+
+
+// D:\easycom\PFE-Next.js\typescript-version\starter-kit\src\app\(dashboard)\layout.tsx
+// MUI Imports
+import Button from '@mui/material/Button'
+
+// Type Imports
+import type { ChildrenType } from '@core/types'
+
+// Layout Imports
+import LayoutWrapper from '@layouts/LayoutWrapper'
+import VerticalLayout from '@layouts/VerticalLayout'
+import HorizontalLayout from '@layouts/HorizontalLayout'
+
+// Component Imports
+import Providers from '@components/Providers'
+import Navigation from '@components/layout/vertical/Navigation'
+import Header from '@components/layout/horizontal/Header'
+import Navbar from '@components/layout/vertical/Navbar'
+import VerticalFooter from '@components/layout/vertical/Footer'
+import HorizontalFooter from '@components/layout/horizontal/Footer'
+import ScrollToTop from '@core/components/scroll-to-top'
+
+// Util Imports
+import { getMode, getSystemMode } from '@core/utils/serverHelpers'
+
+const Layout = async (props: ChildrenType) => {
+  const { children } = props
+
+  // Vars
+  const direction = 'ltr'
+  const mode = await getMode()
+  const systemMode = await getSystemMode()
+
+  return (
+    <Providers direction={direction}>
+      <LayoutWrapper
+        systemMode={systemMode}
+        verticalLayout={
+          <VerticalLayout navigation={<Navigation mode={mode} />} navbar={<Navbar />} footer={<VerticalFooter />}>
+            {children}
+          </VerticalLayout>
+        }
+        horizontalLayout={
+          <HorizontalLayout header={<Header />} footer={<HorizontalFooter />}>
+            {children}
+          </HorizontalLayout>
+        }
+      />
+      <ScrollToTop className='mui-fixed'>
+        <Button variant='contained' className='is-10 bs-10 rounded-full p-0 min-is-0 flex items-center justify-center'>
+          <i className='tabler-arrow-up' />
+        </Button>
+      </ScrollToTop>
+    </Providers>
+  )
+}
+
+export default Layout
+
+
+
+
+
+
+
+
+
+
+// D:\easycom\PFE-Next.js\typescript-version\starter-kit\src\app\[...not-found]\page.tsx
+// Component Imports
+import Providers from '@components/Providers'
+import BlankLayout from '@layouts/BlankLayout'
+import NotFound from '@views/NotFound'
+
+// Util Imports
+import { getServerMode, getSystemMode } from '@core/utils/serverHelpers'
+
+const NotFoundPage = async () => {
+  // Vars
+  const direction = 'ltr'
+  const mode = await getServerMode()
+  const systemMode = await getSystemMode()
+
+  return (
+    <Providers direction={direction}>
+      <BlankLayout systemMode={systemMode}>
+        <NotFound mode={mode} />
+      </BlankLayout>
+    </Providers>
+  )
+}
+
+export default NotFoundPage
+undefinedundefinedundefined
+
+
+
+
+
+
+
+
+
+// D:\easycom\PFE-Next.js\typescript-version\starter-kit\src\app\layout.tsx
+// MUI Imports
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript'
+
+// Third-party Imports
+import 'react-perfect-scrollbar/dist/css/styles.css'
+
+// Type Imports
+import type { ChildrenType } from '@core/types'
+
+// Util Imports
+import { getSystemMode } from '@core/utils/serverHelpers'
+
+// Style Imports
+import '@/app/globals.css'
+
+// Generated Icon CSS Imports
+import '@assets/iconify-icons/generated-icons.css'
+
+export const metadata = {
+  title: 'Vuexy - MUI Next.js Admin Dashboard Template',
+  description:
+    'Vuexy - MUI Next.js Admin Dashboard Template - is the most developer friendly & highly customizable Admin Dashboard Template based on MUI v5.'
+}
+
+const RootLayout = async (props: ChildrenType) => {
+  const { children } = props
+
+  // Vars
+
+  const systemMode = await getSystemMode()
+  const direction = 'ltr'
+
+  return (
+    <html id='__next' lang='en' dir={direction} suppressHydrationWarning>
+      <body className='flex is-full min-bs-full flex-auto flex-col'>
+        <InitColorSchemeScript attribute='data' defaultMode={systemMode} />
+        {children}
+      </body>
+    </html>
+  )
+}
+
+export default RootLayout
