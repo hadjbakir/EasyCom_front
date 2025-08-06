@@ -11,10 +11,10 @@ const serverApiCall = async (endpoint, options = {}) => {
 
   const defaultOptions = {
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
     },
-    timeout: 5000, // 5 second timeout
+    timeout: 5000 // 5 second timeout
   }
 
   const mergedOptions = {
@@ -22,7 +22,7 @@ const serverApiCall = async (endpoint, options = {}) => {
     ...options,
     headers: {
       ...defaultOptions.headers,
-      ...options.headers,
+      ...options.headers
     }
   }
 
@@ -110,6 +110,7 @@ export const authOptions = {
         token.email = user.email
         token.accessToken = user.accessToken
       }
+
       return token
     },
 
@@ -190,6 +191,7 @@ const cachedSessionCallback = async ({ session, token }) => {
     })
 
     const userData = data.user
+
     const fullUserData = {
       id: userData.id,
       fullName: userData.full_name,

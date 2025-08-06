@@ -1,7 +1,7 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const API_KEY = 'AIzaSyBsVdG5KKbVoJYCiO96NnpFTB9phPl0uKs';
-const genAI = new GoogleGenerativeAI(API_KEY);
+const API_KEY = 'AIzaSyBsVdG5KKbVoJYCiO96NnpFTB9phPl0uKs'
+const genAI = new GoogleGenerativeAI(API_KEY)
 
 // Comprehensive platform context for the chatbot
 const PLATFORM_CONTEXT = `
@@ -100,12 +100,12 @@ You are a helpful AI assistant for EasyCom, an all-in-one e-commerce centralizat
 - Explain the verification and trust aspects of the platform
 
 Remember: EasyCom is specifically designed to centralize and simplify e-commerce operations in Algeria, connecting all stakeholders in the e-commerce ecosystem.
-`;
+`
 
 class GeminiService {
   constructor() {
-    this.model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-    this.chat = null;
+    this.model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+    this.chat = null
   }
 
   async initializeChat() {
@@ -114,38 +114,45 @@ class GeminiService {
         history: [
           {
             role: 'user',
-            parts: [{ text: PLATFORM_CONTEXT }],
+            parts: [{ text: PLATFORM_CONTEXT }]
           },
           {
             role: 'model',
-            parts: [{ text: 'Hello! I\'m your EasyCom assistant. I can help you understand our comprehensive e-commerce centralization platform designed for Algerian businesses. Whether you\'re a seller looking for suppliers, a service provider wanting to join our network, or need help with our AI-powered features, I\'m here to guide you. What would you like to know about EasyCom?' }],
-          },
+            parts: [
+              {
+                text: "Hello! I'm your EasyCom assistant. I can help you understand our comprehensive e-commerce centralization platform designed for Algerian businesses. Whether you're a seller looking for suppliers, a service provider wanting to join our network, or need help with our AI-powered features, I'm here to guide you. What would you like to know about EasyCom?"
+              }
+            ]
+          }
         ],
         generationConfig: {
           maxOutputTokens: 600,
-          temperature: 0.7,
-        },
-      });
+          temperature: 0.7
+        }
+      })
     }
-    return this.chat;
+
+    return this.chat
   }
 
   async sendMessage(message) {
     try {
-      const chat = await this.initializeChat();
-      const result = await chat.sendMessage(message);
-      const response = await result.response;
-      return response.text();
+      const chat = await this.initializeChat()
+      const result = await chat.sendMessage(message)
+      const response = await result.response
+
+      return response.text()
     } catch (error) {
-      console.error('Error sending message to Gemini:', error);
-      throw new Error('Failed to get response from AI assistant. Please try again.');
+      console.error('Error sending message to Gemini:', error)
+      throw new Error('Failed to get response from AI assistant. Please try again.')
     }
   }
 
   async resetChat() {
-    this.chat = null;
-    return this.initializeChat();
+    this.chat = null
+
+    return this.initializeChat()
   }
 }
 
-export default new GeminiService();
+export default new GeminiService()

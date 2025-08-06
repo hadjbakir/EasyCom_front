@@ -467,6 +467,7 @@ const EditProductDrawer = ({ open, handleClose, onProductUpdated, product, store
       setError('You must be logged in and select a store/product to update')
       setIsSubmitting(false)
       router.push(getLocalizedUrl('/login', locale))
+
       return
     }
 
@@ -553,7 +554,7 @@ const EditProductDrawer = ({ open, handleClose, onProductUpdated, product, store
         handleClose()
       }, 2000)
     } catch (error) {
-        console.error('Failed to update product:', error.response?.data || error)
+      console.error('Failed to update product:', error.response?.data || error)
 
       const errorMessage =
         error.response?.status === 422
@@ -761,11 +762,7 @@ const EditProductDrawer = ({ open, handleClose, onProductUpdated, product, store
                 render={({ field }) => (
                   <FormControlLabel
                     control={
-                      <Checkbox
-                        {...field}
-                        checked={field.value}
-                        onChange={e => field.onChange(e.target.checked)}
-                      />
+                      <Checkbox {...field} checked={field.value} onChange={e => field.onChange(e.target.checked)} />
                     }
                     label='Add to Clearance'
                   />

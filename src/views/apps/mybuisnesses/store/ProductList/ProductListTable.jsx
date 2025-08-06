@@ -265,7 +265,9 @@ const ProductListTable = ({ storeId, initialProducts = [] }) => {
         })
         setProductsData(prev => {
           const updatedProducts = prev.filter(product => product.id !== productId)
+
           setFilteredProducts(updatedProducts) // Update filtered products
+
           return updatedProducts
         })
         setSuccessMessage('Product deleted successfully')
@@ -590,7 +592,9 @@ const ProductListTable = ({ storeId, initialProducts = [] }) => {
         <DialogContent>Are you sure you want to delete this product?</DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenDeleteDialog(false)}>Cancel</Button>
-          <Button onClick={confirmDelete} variant='contained' color='error'>Delete</Button>
+          <Button onClick={confirmDelete} variant='contained' color='error'>
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
     </Card>

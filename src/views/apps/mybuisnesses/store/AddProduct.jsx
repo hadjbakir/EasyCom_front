@@ -403,6 +403,7 @@ const AddProduct = ({ storeId }) => {
     if (!session?.user?.accessToken || !storeId) {
       setError('You must be logged in and select a store to create a product')
       router.push(getLocalizedUrl('/login', locale))
+
       return
     }
 
@@ -691,11 +692,7 @@ const AddProduct = ({ storeId }) => {
                 render={({ field }) => (
                   <FormControlLabel
                     control={
-                      <Checkbox
-                        {...field}
-                        checked={field.value}
-                        onChange={e => field.onChange(e.target.checked)}
-                      />
+                      <Checkbox {...field} checked={field.value} onChange={e => field.onChange(e.target.checked)} />
                     }
                     label='Add to Clearance'
                   />

@@ -1,18 +1,34 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { useRouter, useParams } from "next/navigation"
-import { useSession } from "next-auth/react"
-import { motion } from "framer-motion"
-import { Store, ShoppingBag, Briefcase, Building2 } from "lucide-react"
-import { useTheme } from "@mui/material/styles"
-import apiClient from '@/libs/api'
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, PieChart as RechartsPieChart, Pie, Cell } from 'recharts'
+import { useState, useEffect } from 'react'
+
+import { useRouter, useParams } from 'next/navigation'
+
+import { useSession } from 'next-auth/react'
+import { motion } from 'framer-motion'
+import { Store, ShoppingBag, Briefcase, Building2 } from 'lucide-react'
+import { useTheme } from '@mui/material/styles'
+
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RechartsTooltip,
+  Legend,
+  PieChart as RechartsPieChart,
+  Pie,
+  Cell
+} from 'recharts'
 import { Card, CardContent, Typography, Grid } from '@mui/material'
 
-import WelcomeSection from "./WelcomeSection"
-import StatisticsSection from "./StatisticsSection"
-import NavigationCard from "./NavigationCard"
+import apiClient from '@/libs/api'
+
+import WelcomeSection from './WelcomeSection'
+import StatisticsSection from './StatisticsSection'
+import NavigationCard from './NavigationCard'
 
 const Dashboard = () => {
   const { data: session, status } = useSession()
@@ -23,12 +39,13 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const theme = useTheme()
-  const isDark = theme.palette.mode === "dark"
+  const isDark = theme.palette.mode === 'dark'
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setLoading(true)
+
         // Appels API pour stats générales
         const [
           productsRes,
@@ -49,59 +66,63 @@ const Dashboard = () => {
           apiClient.get('/categories'),
           apiClient.get('/domains')
         ])
+
         const statsGeneral = {
           totalProducts: productsRes.data?.data?.length || 0,
           totalSkills: skillsRes.data?.data?.length || 0,
-          totalWorkspaces: (workspacesStudioRes.data?.data?.length || 0) + (workspacesCoworkingRes.data?.data?.length || 0),
+          totalWorkspaces:
+            (workspacesStudioRes.data?.data?.length || 0) + (workspacesCoworkingRes.data?.data?.length || 0),
           totalStudios: workspacesStudioRes.data?.data?.length || 0,
           totalCoworkings: workspacesCoworkingRes.data?.data?.length || 0,
           totalSuppliers: suppliersRes.data?.data?.length || 0,
           totalServiceProviders: serviceProvidersRes.data?.data?.length || 0,
           totalCategories: categoriesRes.data?.data?.length || 0,
-          totalDomains: domainsRes.data?.data?.length || 0,
+          totalDomains: domainsRes.data?.data?.length || 0
         }
+
         setStats(statsGeneral)
         setLoading(false)
       } catch (err) {
-        console.error("Error fetching dashboard data:", err)
-        setError("Failed to load platform statistics. Please try again later.")
+        console.error('Error fetching dashboard data:', err)
+        setError('Failed to load platform statistics. Please try again later.')
         setLoading(false)
       }
     }
+
     fetchDashboardData()
   }, [])
 
   // Light Mode Styles
   const lightModeStyles = {
-    errorContainer: "border border-red-200 bg-red-50 rounded-lg p-4",
-    errorText: "text-red-800",
-    title: "text-2xl font-bold text-gray-900",
-    divider: "h-1 flex-1 bg-gradient-to-r from-blue-200 to-transparent ml-6 rounded-full",
-    skeletonElements: "bg-gray-200 animate-pulse",
+    errorContainer: 'border border-red-200 bg-red-50 rounded-lg p-4',
+    errorText: 'text-red-800',
+    title: 'text-2xl font-bold text-gray-900',
+    divider: 'h-1 flex-1 bg-gradient-to-r from-blue-200 to-transparent ml-6 rounded-full',
+    skeletonElements: 'bg-gray-200 animate-pulse'
   }
 
   // Dark Mode Styles
   const darkModeStyles = {
-    errorContainer: "border border-red-500/30 bg-red-500/10 rounded-lg p-4 backdrop-blur-sm",
-    errorText: "text-red-400",
-    title: "text-2xl font-bold text-slate-100",
-    divider: "h-1 flex-1 bg-gradient-to-r from-slate-600 to-transparent ml-6 rounded-full",
-    skeletonElements: "bg-slate-700 animate-pulse",
+    errorContainer: 'border border-red-500/30 bg-red-500/10 rounded-lg p-4 backdrop-blur-sm',
+    errorText: 'text-red-400',
+    title: 'text-2xl font-bold text-slate-100',
+    divider: 'h-1 flex-1 bg-gradient-to-r from-slate-600 to-transparent ml-6 rounded-full',
+    skeletonElements: 'bg-slate-700 animate-pulse'
   }
 
   const styles = isDark ? darkModeStyles : lightModeStyles
 
-  if (status === "loading") {
+  if (status === 'loading') {
     return (
-      <div className="space-y-6">
+      <div className='space-y-6'>
         <div className={`h-48 w-full rounded-xl ${styles.skeletonElements}`}></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map((i) => (
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+          {[1, 2, 3, 4].map(i => (
             <div key={i} className={`h-32 rounded-xl ${styles.skeletonElements}`}></div>
           ))}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map((i) => (
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+          {[1, 2, 3, 4].map(i => (
             <div key={i} className={`h-64 rounded-xl ${styles.skeletonElements}`}></div>
           ))}
         </div>
@@ -121,9 +142,10 @@ const Dashboard = () => {
       Suppliers: stats?.totalSuppliers || 0,
       ServiceProviders: stats?.totalServiceProviders || 0,
       Categories: stats?.totalCategories || 0,
-      Domains: stats?.totalDomains || 0,
+      Domains: stats?.totalDomains || 0
     }
   ]
+
   const pieData = [
     { name: 'Products', value: stats?.totalProducts || 0, color: '#10B981' },
     { name: 'Skills', value: stats?.totalSkills || 0, color: '#8B5CF6' },
@@ -132,13 +154,13 @@ const Dashboard = () => {
     { name: 'Suppliers', value: stats?.totalSuppliers || 0, color: '#F59E0B' },
     { name: 'Service Providers', value: stats?.totalServiceProviders || 0, color: '#6366f1' },
     { name: 'Categories', value: stats?.totalCategories || 0, color: '#f59e0b' },
-    { name: 'Domains', value: stats?.totalDomains || 0, color: '#14b8a6' },
+    { name: 'Domains', value: stats?.totalDomains || 0, color: '#14b8a6' }
   ].filter(item => item.value > 0)
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       {error && (
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="p-6">
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className='p-6'>
           <div className={styles.errorContainer}>
             <p className={styles.errorText}>{error}</p>
           </div>
@@ -149,32 +171,32 @@ const Dashboard = () => {
 
       <StatisticsSection stats={stats} loading={loading} />
 
-      <div className="space-y-6 mb-8">
+      <div className='space-y-6 mb-8'>
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex items-center justify-between"
+          className='flex items-center justify-between'
         >
           <h2 className={styles.title}>Quick Access</h2>
           <div className={styles.divider}></div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.5 }}
           >
             <NavigationCard
-              title="Become Business"
-              description="Register your business and start selling products or services"
-              icon={<Briefcase className="h-6 w-6" />}
-              linkText="Get Started"
+              title='Become Business'
+              description='Register your business and start selling products or services'
+              icon={<Briefcase className='h-6 w-6' />}
+              linkText='Get Started'
               linkHref={`/${locale}/apps/becomebuisness`}
-              color="#10B981"
+              color='#10B981'
               loading={loading}
-              imageSrc="/images/dashboard/business.jpg"
+              imageSrc='/images/dashboard/business.jpg'
               clickable
             />
           </motion.div>
@@ -185,14 +207,14 @@ const Dashboard = () => {
             transition={{ delay: 0.2, duration: 0.5 }}
           >
             <NavigationCard
-              title="Explore Products"
-              description="Discover and shop for products from various stores"
-              icon={<ShoppingBag className="h-6 w-6" />}
-              linkText="Shop Now"
+              title='Explore Products'
+              description='Discover and shop for products from various stores'
+              icon={<ShoppingBag className='h-6 w-6' />}
+              linkText='Shop Now'
               linkHref={`/${locale}/apps/explore/products-and-stores`}
-              color="#3B82F6"
+              color='#3B82F6'
               loading={loading}
-              imageSrc="/images/dashboard/products.jpg"
+              imageSrc='/images/dashboard/products.jpg'
               clickable
             />
           </motion.div>
@@ -203,14 +225,14 @@ const Dashboard = () => {
             transition={{ delay: 0.3, duration: 0.5 }}
           >
             <NavigationCard
-              title="Explore Skills"
-              description="Find skilled professionals for your projects"
-              icon={<Store className="h-6 w-6" />}
-              linkText="Find Skills"
+              title='Explore Skills'
+              description='Find skilled professionals for your projects'
+              icon={<Store className='h-6 w-6' />}
+              linkText='Find Skills'
               linkHref={`/${locale}/apps/explore/skills`}
-              color="#F59E0B"
+              color='#F59E0B'
               loading={loading}
-              imageSrc="/images/dashboard/skills.jpg"
+              imageSrc='/images/dashboard/skills.jpg'
               clickable
             />
           </motion.div>
@@ -221,14 +243,14 @@ const Dashboard = () => {
             transition={{ delay: 0.4, duration: 0.5 }}
           >
             <NavigationCard
-              title="Explore Workspaces"
-              description="Book coworking spaces and studios for your work"
-              icon={<Building2 className="h-6 w-6" />}
-              linkText="Find Spaces"
+              title='Explore Workspaces'
+              description='Book coworking spaces and studios for your work'
+              icon={<Building2 className='h-6 w-6' />}
+              linkText='Find Spaces'
               linkHref={`/${locale}/apps/explore/spaces`}
-              color="#8B5CF6"
+              color='#8B5CF6'
               loading={loading}
-              imageSrc="/images/dashboard/workspaces.jpg"
+              imageSrc='/images/dashboard/workspaces.jpg'
               clickable
             />
           </motion.div>
@@ -236,8 +258,8 @@ const Dashboard = () => {
       </div>
 
       {/* Charts Section */}
-      <div className="space-y-6 mb-8">
-        <div className="flex items-center justify-between">
+      <div className='space-y-6 mb-8'>
+        <div className='flex items-center justify-between'>
           <h2 className={styles.title}>Platform Overview</h2>
           <div className={styles.divider}></div>
         </div>
@@ -259,7 +281,10 @@ const Dashboard = () => {
                 </Typography>
                 <ResponsiveContainer width='100%' height={350}>
                   <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray='3 3' stroke={isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'} />
+                    <CartesianGrid
+                      strokeDasharray='3 3'
+                      stroke={isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}
+                    />
                     <XAxis dataKey='name' stroke={isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)'} />
                     <YAxis stroke={isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)'} />
                     <RechartsTooltip

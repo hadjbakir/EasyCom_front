@@ -782,22 +782,13 @@ const ServiceClientOrders = () => {
         <Table className={tableStyles.table}>
           <TableHead>
             {table.getHeaderGroups().map(headerGroup => (
-              <TableRow
-                key={headerGroup.id}
-                sx={{
-                  background: (theme) => theme.palette.mode === 'dark'
-                    ? theme.palette.background.paper
-                    : '#fafbfc'
-                }}
-              >
+              <TableRow key={headerGroup.id} sx={{ background: '#fafbfc' }}>
                 {headerGroup.headers.map(header => (
                   <TableCell
                     key={header.id}
                     align={header.column.columnDef.meta?.align || 'left'}
                     className={classnames('is-full-width font-medium')}
-                    sx={{
-                      borderBottom: (theme) => `2px solid ${theme.palette.divider}`
-                    }}
+                    sx={{ borderBottom: '2px solid #e0e0e0' }}
                   >
                     <div
                       className={classnames('flex items-center gap-2', {
@@ -844,9 +835,7 @@ const ServiceClientOrders = () => {
                     setSelectedOrder(row.original)
                     setDetailsOpen(true)
                   }}
-                  sx={{
-                    borderBottom: (theme) => `1px solid ${theme.palette.divider}`
-                  }}
+                  sx={{ borderBottom: '1px solid #f0f0f0' }}
                 >
                   {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id} align={cell.column.columnDef.meta?.align || 'left'} sx={{ py: 1.5 }}>

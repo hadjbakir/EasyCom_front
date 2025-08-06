@@ -1,6 +1,8 @@
 'use client'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
+
 import { Button, Typography, Box } from '@mui/material'
+
 import { getLocalizedUrl } from '@/utils/i18n'
 
 const VerifyEmail = () => {

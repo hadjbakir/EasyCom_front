@@ -1,10 +1,13 @@
-"use client"
+'use client'
+
+import { useEffect } from 'react'
+
+import { useRouter } from 'next/navigation'
 
 import { useSession } from 'next-auth/react'
+
 import Dashboard from '@/views/dashboard'
 import UltraModernAdminDashboard from '@/views/pages/admin'
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 
 export default function DashboardSwitcher() {
   const { data: session, status } = useSession()

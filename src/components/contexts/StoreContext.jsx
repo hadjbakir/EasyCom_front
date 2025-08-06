@@ -76,9 +76,11 @@ export const StoreProvider = ({ children }) => {
           const coverImageUrl = buildImageUrl(store.cover_image)
 
           // Calculate average rating and review count from the reviews array
-          const averageRating = store.reviews && store.reviews.length > 0
-            ? store.reviews.reduce((acc, review) => acc + (review.rating || 0), 0) / store.reviews.length
-            : 0
+          const averageRating =
+            store.reviews && store.reviews.length > 0
+              ? store.reviews.reduce((acc, review) => acc + (review.rating || 0), 0) / store.reviews.length
+              : 0
+
           const reviewCount = store.reviews?.length || 0
 
           return {

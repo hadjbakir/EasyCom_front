@@ -82,7 +82,7 @@ importers:
         version: 1.1.12(@types/react@19.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@reduxjs/toolkit':
         specifier: ^2.6.1
-        version: 2.8.2(react@18.3.1)
+        version: 2.8.2(react-redux@9.2.0(@types/react@19.0.2)(react@18.3.1)(redux@5.0.1))(react@18.3.1)
       '@tanstack/match-sorter-utils':
         specifier: ^8.19.4
         version: 8.19.4
@@ -200,6 +200,9 @@ importers:
       react-perfect-scrollbar:
         specifier: ^1.5.8
         version: 1.5.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-redux:
+        specifier: ^9.2.0
+        version: 9.2.0(@types/react@19.0.2)(react@18.3.1)(redux@5.0.1)
       react-router-dom:
         specifier: ^7.5.1
         version: 7.6.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -4045,6 +4048,18 @@ packages:
       react: '>=16.3.3'
       react-dom: '>=16.3.3'
 
+  react-redux@9.2.0:
+    resolution: {integrity: sha512-ROY9fvHhwOD9ySfrF0wmvu//bKCQ6AeZZq1nJNtbDC+kk5DuSuNX/n6YWYF/SYy7bSba4D4FSz8DJeKY/S/r+g==}
+    peerDependencies:
+      '@types/react': ^18.2.25 || ^19
+      react: ^18.0 || ^19
+      redux: ^5.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      redux:
+        optional: true
+
   react-remove-scroll-bar@2.3.8:
     resolution: {integrity: sha512-9r+yi9+mgU33AKcj6IbT9oRCO78WriSj6t/cF8DWBZJ9aOGPOTEDvdUDz1FwKim7QXWwmHqtdHnRJfhAxEG46Q==}
     engines: {node: '>=10'}
@@ -5990,7 +6005,7 @@ snapshots:
 
   '@radix-ui/rect@1.1.1': {}
 
-  '@reduxjs/toolkit@2.8.2(react@18.3.1)':
+  '@reduxjs/toolkit@2.8.2(react-redux@9.2.0(@types/react@19.0.2)(react@18.3.1)(redux@5.0.1))(react@18.3.1)':
     dependencies:
       '@standard-schema/spec': 1.0.0
       '@standard-schema/utils': 0.3.0
@@ -6000,6 +6015,7 @@ snapshots:
       reselect: 5.1.1
     optionalDependencies:
       react: 18.3.1
+      react-redux: 9.2.0(@types/react@19.0.2)(react@18.3.1)(redux@5.0.1)
 
   '@remirror/core-constants@3.0.0': {}
 
@@ -8570,6 +8586,15 @@ snapshots:
       prop-types: 15.8.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+
+  react-redux@9.2.0(@types/react@19.0.2)(react@18.3.1)(redux@5.0.1):
+    dependencies:
+      '@types/use-sync-external-store': 0.0.6
+      react: 18.3.1
+      use-sync-external-store: 1.5.0(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 19.0.2
+      redux: 5.0.1
 
   react-remove-scroll-bar@2.3.8(@types/react@19.0.2)(react@18.3.1):
     dependencies:

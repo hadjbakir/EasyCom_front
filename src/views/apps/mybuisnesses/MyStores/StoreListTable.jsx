@@ -290,12 +290,13 @@ const StoreListTable = () => {
     try {
       const response = await apiClient.get(`/suppliers/${storeId}`)
       const store = response.data.data
+
       if (updateMode === 'add') {
         setStoresData(prev => [...prev, store])
         setFilteredData(prev => [...prev, store])
       } else if (updateMode === 'edit') {
-        setStoresData(prev => prev.map(s => s.id === store.id ? store : s))
-        setFilteredData(prev => prev.map(s => s.id === store.id ? store : s))
+        setStoresData(prev => prev.map(s => (s.id === store.id ? store : s)))
+        setFilteredData(prev => prev.map(s => (s.id === store.id ? store : s)))
       }
     } catch (err) {
       console.error('Failed to fetch store after add/edit:', err)
@@ -406,6 +407,7 @@ const StoreListTable = () => {
         cell: ({ row }) => {
           const status = row.original.status?.toLowerCase() || 'active'
           const isActive = status === 'active'
+
           return (
             <FormControlLabel
               control={
@@ -416,8 +418,13 @@ const StoreListTable = () => {
                   onChange={e => {
                     // Toggle status localement
                     const newStatus = isActive ? 'inactive' : 'active'
-                    setStoresData(prev => prev.map(store => store.id === row.original.id ? { ...store, status: newStatus } : store))
-                    setFilteredData(prev => prev.map(store => store.id === row.original.id ? { ...store, status: newStatus } : store))
+
+                    setStoresData(prev =>
+                      prev.map(store => (store.id === row.original.id ? { ...store, status: newStatus } : store))
+                    )
+                    setFilteredData(prev =>
+                      prev.map(store => (store.id === row.original.id ? { ...store, status: newStatus } : store))
+                    )
                     setSuccess(`Store ${isActive ? 'deactivated' : 'activated'} (local only)`)
                     setTimeout(() => setSuccess(null), 2000)
                   }}
@@ -511,25 +518,24 @@ const StoreListTable = () => {
   const handleStoreCreated = useCallback(async newStore => {
     await fetchAndUpdateStore(newStore.id, 'add')
     setAddStoreOpen(false)
+
     if (process.env.NODE_ENV !== 'production') {
       console.log('New store created:', newStore)
     }
   }, [])
 
   // Handle store update success
-  const handleStoreUpdated = useCallback(
-    async updatedStore => {
-      await fetchAndUpdateStore(updatedStore.id, 'edit')
-      setEditStoreOpen(false)
-      setSelectedStoreId(null)
-      setSuccess('Store updated successfully')
-      setTimeout(() => setSuccess(null), 3000)
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('Store updated:', updatedStore)
-      }
-    },
-    []
-  )
+  const handleStoreUpdated = useCallback(async updatedStore => {
+    await fetchAndUpdateStore(updatedStore.id, 'edit')
+    setEditStoreOpen(false)
+    setSelectedStoreId(null)
+    setSuccess('Store updated successfully')
+    setTimeout(() => setSuccess(null), 3000)
+
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('Store updated:', updatedStore)
+    }
+  }, [])
 
   // Initialize table
   const table = useReactTable({

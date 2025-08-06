@@ -732,9 +732,7 @@ const ProductClientOrders = () => {
               <TableRow
                 key={headerGroup.id}
                 sx={{
-                  background: (theme) => theme.palette.mode === 'dark'
-                    ? theme.palette.background.paper
-                    : '#fafbfc'
+                  background: theme => (theme.palette.mode === 'dark' ? theme.palette.background.paper : '#fafbfc')
                 }}
               >
                 {headerGroup.headers.map(header => (
@@ -745,7 +743,7 @@ const ProductClientOrders = () => {
                       'no-wrap': header.column.id !== 'order_products'
                     })}
                     sx={{
-                      borderBottom: (theme) => `2px solid ${theme.palette.divider}`
+                      borderBottom: theme => `2px solid ${theme.palette.divider}`
                     }}
                   >
                     <div
@@ -794,7 +792,7 @@ const ProductClientOrders = () => {
                     setDetailsOpen(true)
                   }}
                   sx={{
-                    borderBottom: (theme) => `1px solid ${theme.palette.divider}`
+                    borderBottom: theme => `1px solid ${theme.palette.divider}`
                   }}
                 >
                   {row.getVisibleCells().map(cell => (

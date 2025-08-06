@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, Suspense } from 'react'
+
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { useParams } from 'next/navigation'
-import { getLocalizedUrl } from '@/utils/i18n'
+
 import {
   Box,
   Typography,
@@ -15,6 +16,8 @@ import {
   Alert,
   CircularProgress
 } from '@mui/material'
+
+import { getLocalizedUrl } from '@/utils/i18n'
 import { ProductProvider } from '@/components/contexts/ProductContext'
 import { CartProvider, useCart } from '@/components/contexts/CartContext'
 import { SavedProvider } from '@/components/contexts/SavedContext'
@@ -41,8 +44,10 @@ const ClearanceProductsContent = () => {
         message: 'Please log in to add items to your cart',
         severity: 'warning'
       })
+
       return
     }
+
     addToCart(product)
     setSnackbar({
       open: true,
@@ -71,7 +76,13 @@ const ClearanceProductsContent = () => {
           Discover exclusive deals on clearance items from various stores.
         </Typography>
       </Box>
-      <Suspense fallback={<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}><CircularProgress /></Box>}>
+      <Suspense
+        fallback={
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+            <CircularProgress />
+          </Box>
+        }
+      >
         <ClearanceProductGrid onAddToCart={handleAddToCart} />
       </Suspense>
       <Snackbar

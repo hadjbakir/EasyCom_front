@@ -235,8 +235,10 @@ const SpaceDetailView = ({ id }) => {
     const fetchWorkspace = async () => {
       try {
         const response = await apiClient.get(`/workspaces/${id}`)
+
         if (response.data?.data) {
           const mappedData = mapWorkspaceData(response.data.data)
+
           if (mappedData) {
             setSpaceData(mappedData)
           }
@@ -245,6 +247,7 @@ const SpaceDetailView = ({ id }) => {
         console.error('Error refreshing workspace data:', err)
       }
     }
+
     fetchWorkspace()
   }
 

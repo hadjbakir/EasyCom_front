@@ -36,7 +36,7 @@ import CustomTextField from '@core/components/mui/TextField'
 import apiClient from '@/libs/api'
 
 // Base URL for static files
-const STORAGE_BASE_URL = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000').replace(/\/+$/, '');
+const STORAGE_BASE_URL = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000').replace(/\/+$/, '')
 
 /**
  * SkillEditDialog component for editing an existing service provider skill
@@ -226,9 +226,7 @@ const SkillEditDialog = ({ open, onClose, skill, serviceProvider, refreshData })
 
     try {
       // Handle possible null/empty values
-      const skillIdsArray = selectedSkills.length > 0
-        ? selectedSkills.map(id => parseInt(id, 10))
-        : []
+      const skillIdsArray = selectedSkills.length > 0 ? selectedSkills.map(id => parseInt(id, 10)) : []
 
       // Build payload carefully to avoid null/undefined issues
       const payload = {

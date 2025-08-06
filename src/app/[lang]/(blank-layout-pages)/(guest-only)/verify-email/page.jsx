@@ -9,6 +9,7 @@ export const metadata = {
 const VerifyEmailPage = async () => {
   // Vars
   const mode = await getServerMode()
+
   return <VerifyEmail mode={mode} />
 }
 

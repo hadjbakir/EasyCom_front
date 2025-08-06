@@ -5,7 +5,6 @@ import { useState, Suspense } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { useParams } from 'next/navigation'
-import { getLocalizedUrl } from '@/utils/i18n'
 
 import {
   Box,
@@ -20,6 +19,8 @@ import {
   CircularProgress
 } from '@mui/material'
 import { Store, Package, AlertTriangle } from 'lucide-react'
+
+import { getLocalizedUrl } from '@/utils/i18n'
 
 import { StoreProvider, useStore } from '@/components/contexts/StoreContext'
 import { ProductProvider, useProduct } from '@/components/contexts/ProductContext'
@@ -140,7 +141,12 @@ const ProductsAndStoresContent = () => {
           <MuiLink component={Link} href={getLocalizedUrl('/dashboard', locale)} underline='hover' color='inherit'>
             Dashboard
           </MuiLink>
-          <MuiLink component={Link} href={getLocalizedUrl('/apps/explore/products-and-stores', locale)} underline='hover' color='inherit'>
+          <MuiLink
+            component={Link}
+            href={getLocalizedUrl('/apps/explore/products-and-stores', locale)}
+            underline='hover'
+            color='inherit'
+          >
             Products & Stores
           </MuiLink>
           <Typography color='text.primary'>Products & Stores</Typography>

@@ -125,8 +125,10 @@ const Register = ({ mode }) => {
   const onSubmit = async data => {
     setLoading(true)
     setError(null)
+
     try {
       const response = await apiClient.post('/register', data)
+
       if (response.status === 201) {
         router.push(getLocalizedUrl(`/verify-email?email=${encodeURIComponent(data.email)}`, locale))
       } else {

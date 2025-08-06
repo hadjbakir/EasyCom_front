@@ -1,9 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+
 import { useRouter, useParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+
 import {
   Box,
   Typography,
@@ -13,11 +15,19 @@ import {
   Button,
   CircularProgress,
   Alert,
-  Snackbar
+  Snackbar,
+  TextField,
+  InputAdornment,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Slider
 } from '@mui/material'
 import { ArrowLeft, Search, X, Filter } from 'lucide-react'
+
 import AnimatedPagination from '@/components/ui/pagination/AnimatedPagination'
-import { TextField, InputAdornment, IconButton, FormControl, InputLabel, Select, MenuItem, Slider } from '@mui/material'
 
 import { ProductProvider } from '@/components/contexts/ProductContext'
 import { SavedProvider } from '@/components/contexts/SavedContext'
@@ -28,7 +38,8 @@ import { ServiceOrderProvider } from '@/components/contexts/ServiceOrderContext'
 import { useImageSearchResults } from '@/components/contexts/ImageSearchResultsContext'
 
 const ProductCard = dynamic(() => import('@/views/apps/explore/products/ProductCard'), {
-  loading: () => <CircularProgress />, ssr: false
+  loading: () => <CircularProgress />,
+  ssr: false
 })
 
 const ImageSearchResultsContent = () => {
@@ -37,6 +48,7 @@ const ImageSearchResultsContent = () => {
   const { results } = useImageSearchResults()
   const { addToCart, isAuthenticated } = useCart()
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' })
+
   const {
     searchTerm,
     setSearchTerm,
@@ -53,6 +65,7 @@ const ImageSearchResultsContent = () => {
     paginatedProducts,
     isRestoring
   } = useImageSearchResults()
+
   const [showFilters, setShowFilters] = useState(false)
   const [localPriceRange, setLocalPriceRange] = useState(priceRange)
   const [initialLoading, setInitialLoading] = useState(true)
@@ -80,8 +93,10 @@ const ImageSearchResultsContent = () => {
         message: 'Please log in to add items to your cart',
         severity: 'warning'
       })
+
       return
     }
+
     addToCart(product)
     setSnackbar({
       open: true,
@@ -132,11 +147,19 @@ const ImageSearchResultsContent = () => {
   }
 
   if (isRestoring) {
-    return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}><CircularProgress /></Box>
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
+        <CircularProgress />
+      </Box>
+    )
   }
 
   if (initialLoading) {
-    return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}><CircularProgress /></Box>
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
+        <CircularProgress />
+      </Box>
+    )
   }
 
   if (!results || results.length === 0) {
@@ -153,7 +176,12 @@ const ImageSearchResultsContent = () => {
           <MuiLink component={Link} href={`/${locale}/apps/explore`} underline='hover' color='inherit'>
             Explore
           </MuiLink>
-          <MuiLink component={Link} href={`/${locale}/apps/explore/products-and-stores`} underline='hover' color='inherit'>
+          <MuiLink
+            component={Link}
+            href={`/${locale}/apps/explore/products-and-stores`}
+            underline='hover'
+            color='inherit'
+          >
             Products & Stores
           </MuiLink>
           <Typography color='text.primary'>Image Search Results</Typography>
@@ -167,7 +195,10 @@ const ImageSearchResultsContent = () => {
           Similar Products
         </Typography>
       </Box>
-      <Box id='products-grid-top' sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+      <Box
+        id='products-grid-top'
+        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}
+      >
         <Typography variant='h5'>Products ({filteredProducts.length})</Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
           <TextField
@@ -240,7 +271,13 @@ const ImageSearchResultsContent = () => {
           </Box>
         </Box>
       )}
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: 'repeat(3, 1fr)', lg: 'repeat(4, 1fr)' }, gap: 3 }}>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: 'repeat(3, 1fr)', lg: 'repeat(4, 1fr)' },
+          gap: 3
+        }}
+      >
         {paginatedProducts.map((product, idx) => (
           <ProductCard
             key={product.id ? `${product.id}-${idx}` : idx}

@@ -71,7 +71,6 @@ const StoreDetailsContent = () => {
   const [rating, setRating] = useState(0)
   const [reviewsCount, setReviewsCount] = useState(0)
 
-
   useEffect(() => {
     if (storeId) {
       const storeData = getStoreById(storeId)
@@ -110,6 +109,7 @@ const StoreDetailsContent = () => {
     if (isSaving) return
 
     setIsSaving(true)
+
     try {
       if (isSaved) {
         // Unsave
@@ -132,6 +132,7 @@ const StoreDetailsContent = () => {
           severity: 'success'
         })
       }
+
       setIsSaved(!isSaved)
     } catch (error) {
       console.error('Failed to save/unsave store:', error)
@@ -257,7 +258,6 @@ const StoreDetailsContent = () => {
                     variant='outlined'
                   />
                 )}
-
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
                 <Chip

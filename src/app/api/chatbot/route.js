@@ -1,8 +1,9 @@
-import { NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { NextResponse } from 'next/server'
 
-const API_KEY = 'AIzaSyBsVdG5KKbVoJYCiO96NnpFTB9phPl0uKs';
-const genAI = new GoogleGenerativeAI(API_KEY);
+import { GoogleGenerativeAI } from '@google/generative-ai'
+
+const API_KEY = 'AIzaSyBsVdG5KKbVoJYCiO96NnpFTB9phPl0uKs'
+const genAI = new GoogleGenerativeAI(API_KEY)
 
 // Comprehensive platform context for the chatbot
 const PLATFORM_CONTEXT = `
@@ -101,82 +102,76 @@ You are a helpful AI assistant for EasyCom, an all-in-one e-commerce centralizat
 - Explain the verification and trust aspects of the platform
 
 Remember: EasyCom is specifically designed to centralize and simplify e-commerce operations in Algeria, connecting all stakeholders in the e-commerce ecosystem.
-`;
+`
 
 export async function POST(request) {
   try {
-    const { message, chatHistory = [] } = await request.json();
+    const { message, chatHistory = [] } = await request.json()
 
     if (!message || typeof message !== 'string') {
-      return NextResponse.json(
-        { error: 'Message is required and must be a string' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Message is required and must be a string' }, { status: 400 })
     }
 
-    console.log('Chatbot API: Processing message:', message.substring(0, 50) + '...');
+    console.log('Chatbot API: Processing message:', message.substring(0, 50) + '...')
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
 
     // Prepare chat history with context
     const history = [
       {
         role: 'user',
-        parts: [{ text: PLATFORM_CONTEXT }],
+        parts: [{ text: PLATFORM_CONTEXT }]
       },
       {
         role: 'model',
-        parts: [{ text: 'Hello! I\'m your EasyCom assistant. I can help you understand our comprehensive e-commerce centralization platform designed for Algerian businesses. Whether you\'re a seller looking for suppliers, a service provider wanting to join our network, or need help with our AI-powered features, I\'m here to guide you. What would you like to know about EasyCom?' }],
+        parts: [
+          {
+            text: "Hello! I'm your EasyCom assistant. I can help you understand our comprehensive e-commerce centralization platform designed for Algerian businesses. Whether you're a seller looking for suppliers, a service provider wanting to join our network, or need help with our AI-powered features, I'm here to guide you. What would you like to know about EasyCom?"
+          }
+        ]
       },
       ...chatHistory
-    ];
+    ]
 
     const chat = model.startChat({
       history,
       generationConfig: {
         maxOutputTokens: 600,
-        temperature: 0.7,
-      },
-    });
+        temperature: 0.7
+      }
+    })
 
-    console.log('Chatbot API: Sending message to Gemini...');
-    const result = await chat.sendMessage(message);
-    const response = await result.response;
-    const responseText = response.text();
+    console.log('Chatbot API: Sending message to Gemini...')
+    const result = await chat.sendMessage(message)
+    const response = await result.response
+    const responseText = response.text()
 
-    console.log('Chatbot API: Received response from Gemini');
+    console.log('Chatbot API: Received response from Gemini')
 
     return NextResponse.json({
       message: responseText,
-      timestamp: new Date().toISOString(),
-    });
-
+      timestamp: new Date().toISOString()
+    })
   } catch (error) {
-    console.error('Chatbot API error:', error);
+    console.error('Chatbot API error:', error)
 
     // Provide more specific error messages based on the error type
-    let errorMessage = 'Failed to process your request. Please try again.';
+    let errorMessage = 'Failed to process your request. Please try again.'
 
     if (error.message?.includes('404')) {
-      errorMessage = 'AI model not found. Please check the model configuration.';
+      errorMessage = 'AI model not found. Please check the model configuration.'
     } else if (error.message?.includes('401') || error.message?.includes('403')) {
-      errorMessage = 'Authentication failed. Please check the API key.';
+      errorMessage = 'Authentication failed. Please check the API key.'
     } else if (error.message?.includes('429')) {
-      errorMessage = 'Rate limit exceeded. Please try again later.';
+      errorMessage = 'Rate limit exceeded. Please try again later.'
     } else if (error.message?.includes('network') || error.message?.includes('fetch')) {
-      errorMessage = 'Network error. Please check your internet connection.';
+      errorMessage = 'Network error. Please check your internet connection.'
     }
 
-    return NextResponse.json(
-      { error: errorMessage },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
 
 export async function GET() {
-  return NextResponse.json(
-    { message: 'Chatbot API is running' },
-    { status: 200 }
-  );
+  return NextResponse.json({ message: 'Chatbot API is running' }, { status: 200 })
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+
 import { Box, Card, CardContent, Typography, Chip, IconButton, CardMedia } from '@mui/material'
 import { MapPin, Star, CheckCircle, Share2, Bookmark, BookmarkCheck, Phone, Mail } from 'lucide-react'
 
@@ -20,6 +21,7 @@ const SpaceHeader = ({ space }) => {
         const response = await apiClient.post('/saved-workspaces/is-saved', {
           workspace_id: space.id
         })
+
         setIsSaved(response.data.is_saved)
       } catch (error) {
         console.error('Failed to check saved status:', error)
@@ -44,6 +46,7 @@ const SpaceHeader = ({ space }) => {
           workspace_id: space.id
         })
       }
+
       setIsSaved(!isSaved)
     } catch (error) {
       console.error('Failed to save/unsave space:', error)
@@ -120,7 +123,7 @@ const SpaceHeader = ({ space }) => {
             className={`${isSaved ? 'bg-white text-primary' : 'bg-primary hover:bg-white'}`}
             onClick={handleSaveSpace}
             disabled={isLoading}
-            title={isSaved ? "Remove from favorites" : "Save to favorites"}
+            title={isSaved ? 'Remove from favorites' : 'Save to favorites'}
           >
             {isSaved ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
           </CustomIconButton>

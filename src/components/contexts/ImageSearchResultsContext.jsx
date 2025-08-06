@@ -17,14 +17,16 @@ export const ImageSearchResultsProvider = ({ children }) => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const stored = window.sessionStorage.getItem('imageSearchResults')
+
       if (stored) setResultsState(JSON.parse(stored))
       setIsRestoring(false)
     }
   }, [])
 
   // Met à jour le state et le sessionStorage
-  const setResults = (data) => {
+  const setResults = data => {
     setResultsState(data)
+
     if (typeof window !== 'undefined') {
       window.sessionStorage.setItem('imageSearchResults', JSON.stringify(data))
     }
@@ -36,6 +38,7 @@ export const ImageSearchResultsProvider = ({ children }) => {
       const matchesSearch = product.name?.toLowerCase().includes(searchTerm.toLowerCase())
       const price = typeof product.price === 'number' ? product.price : parseFloat(product.price)
       const matchesPrice = price >= priceRange[0] && price <= priceRange[1]
+
       return matchesSearch && matchesPrice
     })
   }, [results, searchTerm, priceRange])
@@ -43,6 +46,7 @@ export const ImageSearchResultsProvider = ({ children }) => {
   // Tri
   const sortedProducts = useMemo(() => {
     let sorted = [...filteredProducts]
+
     switch (sortBy) {
       case 'price-low-high':
         sorted.sort((a, b) => a.price - b.price)
@@ -59,13 +63,16 @@ export const ImageSearchResultsProvider = ({ children }) => {
       default:
         break
     }
+
     return sorted
   }, [filteredProducts, sortBy])
 
   // Pagination
   const totalPages = Math.ceil(sortedProducts.length / itemsPerPage)
+
   const paginatedProducts = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage
+
     return sortedProducts.slice(start, start + itemsPerPage)
   }, [sortedProducts, currentPage, itemsPerPage])
 

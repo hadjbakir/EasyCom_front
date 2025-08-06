@@ -3,7 +3,6 @@
 import { useState } from 'react'
 
 import { useRouter, useParams } from 'next/navigation'
-import { getLocalizedUrl } from '@/utils/i18n'
 
 import { ShoppingCart, Trash2, Plus, Minus, ShoppingBag, RefreshCw } from 'lucide-react'
 import Avatar from '@mui/material/Avatar'
@@ -16,6 +15,8 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
+
+import { getLocalizedUrl } from '@/utils/i18n'
 
 import CustomChip from '@core/components/mui/Chip'
 import { useCart } from '@/components/contexts/CartContext'

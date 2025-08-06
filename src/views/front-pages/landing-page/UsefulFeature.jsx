@@ -10,10 +10,11 @@ import Chip from '@mui/material/Chip'
 import classnames from 'classnames'
 
 // Hook Imports
+import { Search, Briefcase, ShieldCheck, Store, Tag, Headset } from 'lucide-react'
+
 import { useIntersection } from '@/hooks/useIntersection'
 
 // SVG Imports
-import { Search, Briefcase, ShieldCheck, Store, Tag, Headset } from 'lucide-react'
 
 // Data
 const features = [
@@ -25,7 +26,8 @@ const features = [
   {
     icon: <Briefcase color='var(--mui-palette-primary-main)' size={40} />, // Centralized Service Marketplace
     title: 'Centralized Service Marketplace',
-    description: 'Access trusted freelancers and agencies for design, content, voice-over, media buying, packaging, and more.'
+    description:
+      'Access trusted freelancers and agencies for design, content, voice-over, media buying, packaging, and more.'
   },
   {
     icon: <ShieldCheck color='var(--mui-palette-primary-main)' size={40} />, // Verified Supplier Network
@@ -102,7 +104,7 @@ const UsefulFeature = () => {
           </div>
         </div>
         <div>
-          <Grid container spacing={6} justifyContent="center">
+          <Grid container spacing={6} justifyContent='center'>
             {features.map((item, index) => (
               <Grid key={index} xs={12} sm={6} lg={4}>
                 <div className='flex flex-col gap-2 justify-center items-center'>

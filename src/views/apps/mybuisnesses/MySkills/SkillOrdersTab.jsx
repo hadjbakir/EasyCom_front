@@ -808,7 +808,6 @@ const SkillOrdersTab = ({ profile, skillId }) => {
             </Select>
           </FormControl>
         </Grid>
-
       </Grid>
 
       <Box className='flex justify-between flex-col items-start md:flex-row md:items-center mb-4 gap-4'>
@@ -823,8 +822,7 @@ const SkillOrdersTab = ({ profile, skillId }) => {
           <MenuItem value='50'>50</MenuItem>
         </CustomTextField>
         <div className='flex flex-col sm:flex-row max-sm:is-full items-start sm:items-center gap-4'>
-
-            <Button
+          <Button
             variant='outlined'
             startIcon={<Filter size={18} />}
             onClick={handleOpenFilterDialog}

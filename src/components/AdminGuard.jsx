@@ -1,8 +1,10 @@
 'use client'
 
-import { useAuth } from '@/contexts/AuthContext'
-import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+
+import { useRouter } from 'next/navigation'
+
+import { useAuth } from '@/contexts/AuthContext'
 
 const AdminGuard = ({ children }) => {
   const user = useAuth()
@@ -15,6 +17,7 @@ const AdminGuard = ({ children }) => {
   }, [user, router])
 
   if (!user || user.role !== 'admin') return null
+
   return children
 }
 

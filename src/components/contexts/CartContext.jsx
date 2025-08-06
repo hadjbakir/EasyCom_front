@@ -23,9 +23,11 @@ export const CartProvider = ({ children }) => {
   // Check authentication status whenever session changes
   useEffect(() => {
     const isLoggedIn = status === 'authenticated' && !!session?.user?.accessToken
+
     if (status === 'authenticated' && process.env.NODE_ENV === 'development') {
       console.log('Auth status check:', status, isLoggedIn ? 'Authenticated' : 'Not authenticated')
     }
+
     setIsAuthenticated(isLoggedIn)
   }, [session, status])
 
@@ -142,9 +144,11 @@ export const CartProvider = ({ children }) => {
       setCartItems([])
       setOrderIds([])
       setIsLoading(false)
+
       return
     }
-      fetchCart()
+
+    fetchCart()
   }, [fetchCart, isAuthenticated, status])
 
   const addToCart = useCallback(

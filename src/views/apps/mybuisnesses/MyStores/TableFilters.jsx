@@ -69,8 +69,10 @@ const TableFilters = ({ setData, tableData }) => {
   useEffect(() => {
     const filteredData = tableData.filter(store => {
       const storeType = store.type?.toLowerCase() || ''
+
       if (type && storeType !== type.toLowerCase()) return false
       if (domainId && store.domain_id !== domainId) return false
+
       return true
     })
 

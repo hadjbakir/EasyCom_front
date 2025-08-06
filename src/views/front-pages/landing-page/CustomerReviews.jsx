@@ -1,4 +1,6 @@
 // MUI Imports
+import { useRef, useEffect } from 'react'
+
 import Typography from '@mui/material/Typography'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -9,7 +11,7 @@ import Divider from '@mui/material/Divider'
 // Third-party Imports
 import { useKeenSlider } from 'keen-slider/react'
 import classnames from 'classnames'
-import { useRef, useEffect } from 'react'
+
 import { useIntersection } from '@/hooks/useIntersection'
 
 // Component Imports
@@ -34,21 +36,21 @@ import styles from './styles.module.css'
 // Data
 const data = [
   {
-    desc: "EasyCom made launching my online store effortless. The multi-store feature is a game changer!",
+    desc: 'EasyCom made launching my online store effortless. The multi-store feature is a game changer!',
     rating: 5,
     name: 'Sarah Alami',
     position: 'Fashion Entrepreneur',
     avatarSrc: '/images/avatars/2.png'
   },
   {
-    desc: "I found reliable suppliers in minutes using the image search. Highly recommended!",
+    desc: 'I found reliable suppliers in minutes using the image search. Highly recommended!',
     rating: 5,
     name: 'Ahmed Ben Youssef',
     position: 'Electronics Retailer',
     avatarSrc: '/images/avatars/1.png'
   },
   {
-    desc: "The support team is always available and solved my issues quickly. Great service!",
+    desc: 'The support team is always available and solved my issues quickly. Great service!',
     rating: 5,
     name: 'Leila Mansouri',
     position: 'Home Decor Store Owner',
@@ -62,42 +64,42 @@ const data = [
     avatarSrc: '/images/avatars/3.png'
   },
   {
-    desc: "Managing multiple brands from one dashboard saves me hours every week.",
+    desc: 'Managing multiple brands from one dashboard saves me hours every week.',
     rating: 5,
     name: 'Fatima Zahra Amrani',
     position: 'Beauty Products Distributor',
     avatarSrc: '/images/avatars/6.png'
   },
   {
-    desc: "The stock clearance section helped me sell unsold inventory fast. Very useful!",
+    desc: 'The stock clearance section helped me sell unsold inventory fast. Very useful!',
     rating: 4,
     name: 'Samir Bouzid',
     position: 'Toy Store Manager',
     avatarSrc: '/images/avatars/5.png'
   },
   {
-    desc: "Transparent supplier reviews gave me confidence to try new partners.",
+    desc: 'Transparent supplier reviews gave me confidence to try new partners.',
     rating: 5,
     name: 'Mariam El Fassi',
     position: 'Boutique Owner',
     avatarSrc: '/images/avatars/8.png'
   },
   {
-    desc: "I love how easy it is to customize my store and track analytics in real time.",
+    desc: 'I love how easy it is to customize my store and track analytics in real time.',
     rating: 5,
     name: 'Karim Othmani',
     position: 'Sports Equipment Seller',
     avatarSrc: '/images/avatars/7.png'
   },
   {
-    desc: "The platform is intuitive and the onboarding was super smooth.",
+    desc: 'The platform is intuitive and the onboarding was super smooth.',
     rating: 5,
     name: 'Amira Khaled',
     position: 'Jewelry Designer',
     avatarSrc: '/images/avatars/10.png'
   },
   {
-    desc: "EasyCom connects me with trusted freelancers for content and marketing. All-in-one solution!",
+    desc: 'EasyCom connects me with trusted freelancers for content and marketing. All-in-one solution!',
     rating: 5,
     name: 'Rachid Bensalem',
     position: 'Bookstore Owner',
@@ -166,23 +168,31 @@ const CustomerReviews = () => {
   const skipIntersection = useRef(true)
   const ref = useRef(null)
   const { updateIntersections } = useIntersection()
+
   useEffect(() => {
     const observer = new window.IntersectionObserver(
       ([entry]) => {
         if (skipIntersection.current) {
           skipIntersection.current = false
+
           return
         }
+
         updateIntersections({ [entry.target.id]: entry.isIntersecting })
       },
       { threshold: 0.35 }
     )
+
     ref.current && observer.observe(ref.current)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
-    <section id='customer-reviews' ref={ref} className={classnames('flex flex-col gap-8 plb-[100px] bg-backgroundDefault', styles.sectionStartRadius)}>
+    <section
+      id='customer-reviews'
+      ref={ref}
+      className={classnames('flex flex-col gap-8 plb-[100px] bg-backgroundDefault', styles.sectionStartRadius)}
+    >
       <div
         className={classnames('flex max-md:flex-col max-sm:flex-wrap is-full gap-6', frontCommonStyles.layoutSpacing)}
       >

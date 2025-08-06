@@ -54,8 +54,10 @@ const RelatedSpaces = ({ currentSpace, spaces, locale = 'en' }) => {
     .filter(space => {
       // Exclude current space
       if (space.id === currentSpace.id) return false
+
       // Active only
       if (!space.is_active) return false
+
       // Match location OR type
       return space.location === currentSpace.location || space.type === currentSpace.type
     })
@@ -64,17 +66,22 @@ const RelatedSpaces = ({ currentSpace, spaces, locale = 'en' }) => {
   // If less than 3, fill the rest randomly from the same type (excluding current and only active)
   if (filteredSpaces.length < 3) {
     const alreadyIncludedIds = new Set(filteredSpaces.map(s => s.id))
-    const candidates = spaces.filter(space =>
-      space.id !== currentSpace.id &&
-      space.type === currentSpace.type &&
-      space.is_active &&
-      !alreadyIncludedIds.has(space.id)
+
+    const candidates = spaces.filter(
+      space =>
+        space.id !== currentSpace.id &&
+        space.type === currentSpace.type &&
+        space.is_active &&
+        !alreadyIncludedIds.has(space.id)
     )
+
     // Shuffle candidates
     for (let i = candidates.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
+
       ;[candidates[i], candidates[j]] = [candidates[j], candidates[i]]
     }
+
     filteredSpaces = filteredSpaces.concat(candidates.slice(0, 3 - filteredSpaces.length))
   }
 

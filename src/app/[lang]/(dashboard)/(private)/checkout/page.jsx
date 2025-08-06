@@ -170,7 +170,7 @@ const CheckoutPageContent = () => {
       try {
         setLoadingLocations(true)
         const response = await apiClient.get('/wilayas')
-        
+
         if (response.data && Array.isArray(response.data)) {
           setWilayas(response.data)
         }
@@ -196,6 +196,7 @@ const CheckoutPageContent = () => {
 
         if (response.data && Array.isArray(response.data)) {
           setCommunes(response.data)
+
           // Reset commune if it's not in the new list
           if (response.data.length > 0 && !response.data.find(c => c.id === formData.communeId)) {
             setFormData(prev => ({ ...prev, communeId: response.data[0].id }))
@@ -601,7 +602,10 @@ const CheckoutPageContent = () => {
           <Typography variant='body2' color='text.secondary' paragraph>
             You will receive an email confirmation shortly.
           </Typography>
-          <Button variant='contained' onClick={() => router.push(getLocalizedUrl('/apps/explore/products-and-stores', locale))}>
+          <Button
+            variant='contained'
+            onClick={() => router.push(getLocalizedUrl('/apps/explore/products-and-stores', locale))}
+          >
             Continue Shopping
           </Button>
         </CardContent>

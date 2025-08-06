@@ -59,30 +59,30 @@ const RelatedProfiles = ({ currentProfileId, currentSkillDomain, currentSkills }
           .slice(0, 3) // Take top 3
           .map(({ provider, matchedSkills }) => {
             // Calculate average rating and count from reviews array
-            const reviews = provider.reviews || [];
-            const reviewCount = reviews.length;
-            const averageRating = reviewCount > 0
-              ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviewCount
-              : 0;
+            const reviews = provider.reviews || []
+            const reviewCount = reviews.length
+
+            const averageRating =
+              reviewCount > 0 ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviewCount : 0
 
             return {
-            id: provider.id.toString(),
-            name: provider.user?.full_name || `Provider ${provider.id}`,
-            avatar:
-              provider.pictures?.length > 0
-                ? `${STORAGE_BASE_URL}${provider.pictures[0].picture}`
-                : '/images/avatars/1.png',
-            designation: provider.skill_domain?.name
-              ? `${provider.skill_domain.name.replace(' Development', ' Developer')}`
-              : 'Unknown',
+              id: provider.id.toString(),
+              name: provider.user?.full_name || `Provider ${provider.id}`,
+              avatar:
+                provider.pictures?.length > 0
+                  ? `${STORAGE_BASE_URL}${provider.pictures[0].picture}`
+                  : '/images/avatars/1.png',
+              designation: provider.skill_domain?.name
+                ? `${provider.skill_domain.name.replace(' Development', ' Developer')}`
+                : 'Unknown',
               rating: averageRating,
               reviewCount: reviewCount,
-            skills: (matchedSkills.length > 0 ? matchedSkills : provider.skills?.map(skill => skill.name).slice(0, 2))
-              .slice(0, 2)
-              .map(skill => ({
-                title: skill,
-                color: 'info'
-              }))
+              skills: (matchedSkills.length > 0 ? matchedSkills : provider.skills?.map(skill => skill.name).slice(0, 2))
+                .slice(0, 2)
+                .map(skill => ({
+                  title: skill,
+                  color: 'info'
+                }))
             }
           })
 

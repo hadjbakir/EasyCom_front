@@ -149,28 +149,30 @@ const ProductDetailsContent = ({ product: initialProduct }) => {
     if (isSaving) return
 
     setIsSaving(true)
+
     try {
-    if (isSaved) {
+      if (isSaved) {
         // Unsave
         await apiClient.post('/saved-products/unsave', {
           product_id: product.id
         })
-      setSnackbar({
-        open: true,
-        message: 'Product removed from saved items',
-        severity: 'info'
-      })
-    } else {
+        setSnackbar({
+          open: true,
+          message: 'Product removed from saved items',
+          severity: 'info'
+        })
+      } else {
         // Save
         await apiClient.post('/saved-products/save', {
           product_id: product.id
-      })
-      setSnackbar({
-        open: true,
-        message: 'Product saved successfully',
-        severity: 'success'
-      })
+        })
+        setSnackbar({
+          open: true,
+          message: 'Product saved successfully',
+          severity: 'success'
+        })
       }
+
       setIsSaved(!isSaved)
     } catch (error) {
       console.error('Failed to save/unsave product:', error)
@@ -329,11 +331,7 @@ const ProductDetailsContent = ({ product: initialProduct }) => {
           <ProductDescription product={product} />
         </Box>
       </Card>
-      <OrderDialog
-        open={orderDialogOpen}
-        onClose={handleCloseOrder}
-        product={product}
-      />
+      <OrderDialog open={orderDialogOpen} onClose={handleCloseOrder} product={product} />
       <Snackbar
         open={snackbar.open}
         autoHideDuration={3000}
@@ -350,9 +348,9 @@ const ProductDetailsContent = ({ product: initialProduct }) => {
 
 const ProductDetails = ({ product }) => {
   return (
-      <OrderProvider>
-        <ProductDetailsContent product={product} />
-      </OrderProvider>
+    <OrderProvider>
+      <ProductDetailsContent product={product} />
+    </OrderProvider>
   )
 }
 

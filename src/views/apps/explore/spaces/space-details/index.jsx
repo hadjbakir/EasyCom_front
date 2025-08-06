@@ -162,10 +162,9 @@ const SpaceDetails = ({ id, user }) => {
 
     console.log('Mapped reviews:', reviews)
 
-    const reviewCount = reviews.length;
-    const rating = reviewCount > 0
-      ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount
-      : 0;
+    const reviewCount = reviews.length
+
+    const rating = reviewCount > 0 ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount : 0
 
     return {
       id: workspace.id,

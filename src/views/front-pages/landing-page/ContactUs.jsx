@@ -66,6 +66,7 @@ const ContactUs = () => {
     emailjs.sendForm('service_npx3bif', 'template_sgwgql6', form.current, '6MUbApdkrBmeviZcc').then(
       () => {
         setNotification({ open: true, message: 'Message sent successfully!', severity: 'success' })
+
         // Clear form fields
         setFullName('')
         setEmail('')
