@@ -179,7 +179,7 @@ const Login = ({ mode }) => {
                     router.push(getLocalizedUrl(`/verify-email?email=${encodeURIComponent(errorState.email)}`, locale))
                   }
                 >
-                  Vérifier mon email
+                  Verifier mon email
                 </Button>
               )}
             </Alert>
