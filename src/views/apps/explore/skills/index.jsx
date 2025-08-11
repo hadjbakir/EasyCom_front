@@ -119,6 +119,7 @@ const SkillProviders = () => {
 
     if (searchTerm && searchTerm.trim()) {
       const searchLower = searchTerm.toLowerCase().trim()
+
       console.log('Searching for:', searchLower)
       console.log(
         'Available data:',
@@ -226,7 +227,7 @@ const SkillProviders = () => {
       {process.env.NODE_ENV === 'development' && (
         <Box className='mb-4 p-2 bg-gray-100 rounded text-xs'>
           <Typography variant='body2'>
-            Debug: Search term: "{searchTerm}" | Total data: {data.length} | Filtered: {filteredData.length}
+            Debug: Search term: &quot;{searchTerm}&quot; | Total data: {data.length} | Filtered: {filteredData.length}
           </Typography>
         </Box>
       )}
