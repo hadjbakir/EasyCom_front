@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 
-import Image from 'next/image'
-
 import { Tabs, Tab, Box } from '@mui/material'
+import SafeImage from '@/components/ui/SafeImage'
+import { buildProductImageUrl } from '@/utils/imageUtils'
 
 const ProductImage = ({ images }) => {
   const [selectedMedia, setSelectedMedia] = useState(0)
@@ -16,9 +16,7 @@ const ProductImage = ({ images }) => {
   const mediaItems =
     images?.length > 0
       ? images.map(image => {
-          const src = image.picture.startsWith('http')
-            ? image.picture
-            : `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${image.picture.startsWith('/') ? image.picture.slice(1) : image.picture}`
+          const src = buildProductImageUrl(image.picture)
 
           console.log('ProductImage mediaItem src:', src)
 
@@ -45,11 +43,11 @@ const ProductImage = ({ images }) => {
           alignItems: 'center'
         }}
       >
-        <Image
+        <SafeImage
           src={mediaItems[selectedMedia].src}
           alt={`Product view ${selectedMedia + 1}`}
           fill
-          style={{ objectFit: 'contain' }}
+          type='product'
           priority
         />
       </Box>
@@ -83,7 +81,7 @@ const ProductImage = ({ images }) => {
                   backgroundColor: 'white'
                 }}
               >
-                <Image src={item.src} alt={`Thumbnail ${i + 1}`} fill style={{ objectFit: 'contain' }} />
+                <SafeImage src={item.src} alt={`Thumbnail ${i + 1}`} fill type='product' />
               </Box>
             }
           />

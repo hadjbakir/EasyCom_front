@@ -11,6 +11,7 @@ import apiClient from '@/libs/api'
 import SpaceHeader from './SpaceHeader'
 import SpaceTabs from './SpaceTabs' // Updated to use SpaceTabs
 import RelatedSpaces from './RelatedSpaces'
+import { buildImageUrl } from '@/utils/imageUtils'
 
 // Configure Axios timeout and interceptors for debugging
 apiClient.defaults.timeout = 10000 // 10-second timeout
@@ -82,9 +83,7 @@ const SpaceDetails = ({ id, user }) => {
         // Normalize image_url by removing leading 'workspace_images/' if present
         const normalizedImageUrl = img.image_url.replace(/^workspace_images\//, '')
 
-        const imageUrl = img.image_url.startsWith('/storage/')
-          ? `${STORAGE_BASE_URL}${img.image_url}`
-          : `${STORAGE_BASE_URL}/storage/workspace_images/${normalizedImageUrl}`
+        const imageUrl = buildImageUrl(img.image_url, 'workspace')
 
         console.log('Raw image_url:', img.image_url)
         console.log('Normalized image_url:', normalizedImageUrl)

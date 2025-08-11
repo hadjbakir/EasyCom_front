@@ -2,15 +2,26 @@
 const nextConfig = {
   basePath: process.env.BASEPATH,
   images: {
-    domains: ['localhost'],
+    domains: ['localhost', 'easycom-qfbwg.sevalla.app'],
     remotePatterns: [
       {
         protocol: 'http',
         hostname: 'localhost',
         port: '8000',
         pathname: '/storage/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'easycom-qfbwg.sevalla.app',
+        pathname: '/storage/**'
+      },
+      {
+        protocol: 'http',
+        hostname: 'easycom-qfbwg.sevalla.app',
+        pathname: '/storage/**'
       }
-    ]
+    ],
+    unoptimized: true
   },
   redirects: async () => {
     return [
