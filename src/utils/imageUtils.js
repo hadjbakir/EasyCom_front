@@ -75,9 +75,11 @@ export const buildProductImageUrl = picture => {
 export const isImageAccessible = async url => {
   try {
     const response = await fetch(url, { method: 'HEAD' })
+
     return response.ok
   } catch (error) {
     console.warn('Image accessibility check failed:', error)
+
     return false
   }
 }

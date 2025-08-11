@@ -1,8 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+
 import Image from 'next/image'
+
 import { Box } from '@mui/material'
+
 import { buildImageUrl, getFallbackImage } from '@/utils/imageUtils'
 
 const SafeImage = ({
@@ -27,6 +30,7 @@ const SafeImage = ({
 
     // Try fallback image
     const fallbackSrc = fallback || getFallbackImage(type)
+
     if (fallbackSrc !== imageSrc) {
       setImageSrc(fallbackSrc)
       setImageError(false)

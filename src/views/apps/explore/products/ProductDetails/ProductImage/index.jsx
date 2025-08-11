@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import { Tabs, Tab, Box } from '@mui/material'
+
 import SafeImage from '@/components/ui/SafeImage'
 import { buildProductImageUrl } from '@/utils/imageUtils'
 
