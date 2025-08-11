@@ -60,6 +60,11 @@ const SkillProviders = () => {
         const providers = providersResponse.data.data || []
 
         console.log('Fetched service providers:', providers)
+        console.log('Providers count:', providers.length)
+
+        if (providers.length === 0) {
+          console.warn('No service providers found in the API response')
+        }
 
         // Map providers to component format
         const enrichedProviders = providers.map(provider => ({
@@ -83,6 +88,7 @@ const SkillProviders = () => {
           reviewCount: provider.reviews?.length || 0,
           reviews: provider.reviews || [],
           chips: [...(provider.skills?.map(skill => ({ title: skill.name, color: 'info' })) || [])],
+          skillNames: provider.skills?.map(skill => skill.name) || [],
           startingPrice: provider.starting_price,
           available: true,
           featured: false,
@@ -90,6 +96,9 @@ const SkillProviders = () => {
           skillDomainName: provider.skill_domain?.name || '',
           isSaved: false
         }))
+
+        console.log('Enriched providers:', enrichedProviders)
+        console.log('Enriched providers count:', enrichedProviders.length)
 
         setData(enrichedProviders)
         setFilteredData(enrichedProviders)
@@ -108,18 +117,33 @@ const SkillProviders = () => {
   useEffect(() => {
     let result = [...data]
 
-    if (searchTerm) {
+    if (searchTerm && searchTerm.trim()) {
+      const searchLower = searchTerm.toLowerCase().trim()
+      console.log('Searching for:', searchLower)
+      console.log(
+        'Available data:',
+        data.map(item => ({
+          name: item.name,
+          designation: item.designation,
+          skillNames: item.skillNames
+        }))
+      )
+
       result = result.filter(
         item =>
-          item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.designation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.chips.some(chip => chip.title.toLowerCase().includes(searchTerm.toLowerCase()))
+          (item.name?.toLowerCase() || '').includes(searchLower) ||
+          (item.designation?.toLowerCase() || '').includes(searchLower) ||
+          (item.description?.toLowerCase() || '').includes(searchLower) ||
+          item.chips?.some(chip => (chip.title?.toLowerCase() || '').includes(searchLower)) ||
+          item.skillNames?.some(skill => skill.toLowerCase().includes(searchLower)) ||
+          false
       )
+
+      console.log('Filtered results:', result.length)
     }
 
     if (skillFilter !== 'all') {
-      result = result.filter(item => item.skillDomainName.toLowerCase() === skillFilter.toLowerCase())
+      result = result.filter(item => (item.skillDomainName?.toLowerCase() || '') === skillFilter.toLowerCase())
     }
 
     setFilteredData(result)
@@ -158,7 +182,10 @@ const SkillProviders = () => {
         <TextField
           placeholder='Search skill providers...'
           value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
+          onChange={e => {
+            console.log('Search input changed:', e.target.value)
+            setSearchTerm(e.target.value)
+          }}
           variant='outlined'
           size='small'
           className='min-w-[240px] w-full sm:w-auto'
@@ -194,6 +221,15 @@ const SkillProviders = () => {
           </Select>
         </FormControl>
       </Box>
+
+      {/* Debug info */}
+      {process.env.NODE_ENV === 'development' && (
+        <Box className='mb-4 p-2 bg-gray-100 rounded text-xs'>
+          <Typography variant='body2'>
+            Debug: Search term: "{searchTerm}" | Total data: {data.length} | Filtered: {filteredData.length}
+          </Typography>
+        </Box>
+      )}
 
       {/* Results count */}
       <Typography variant='body2' className='mb-4 text-textSecondary'>
