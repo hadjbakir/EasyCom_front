@@ -1,6 +1,7 @@
 // Utility functions for handling image URLs
 
 const STORAGE_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
+const USE_PROXY = process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_USE_IMAGE_PROXY === 'true'
 
 /**
  * Builds a proper image URL from a path
@@ -19,34 +20,37 @@ export const buildImageUrl = (path, type = null) => {
   // Clean the path
   const cleanPath = path.replace(/^\/+/, '')
 
+  // Build the backend URL
+  let backendUrl = STORAGE_BASE_URL
+
   // Handle different image types
   if (type === 'workspace') {
-    return `${STORAGE_BASE_URL}/storage/workspace_images/${cleanPath}`
+    backendUrl = `${STORAGE_BASE_URL}/storage/workspace_images/${cleanPath}`
+  } else if (type === 'workspace_pictures') {
+    backendUrl = `${STORAGE_BASE_URL}/storage/workspace_pictures/${cleanPath}`
+  } else if (path.includes('workspace_pictures')) {
+    backendUrl = `${STORAGE_BASE_URL}/storage/workspace_pictures/${cleanPath.replace(/^workspace_pictures\//, '')}`
+  } else if (path.includes('workspace_images')) {
+    backendUrl = `${STORAGE_BASE_URL}/storage/workspace_images/${cleanPath.replace(/^workspace_images\//, '')}`
+  } else {
+    backendUrl = `${STORAGE_BASE_URL}/storage/${cleanPath}`
   }
 
-  if (type === 'workspace_pictures') {
-    return `${STORAGE_BASE_URL}/storage/workspace_pictures/${cleanPath}`
-  }
+  // Use proxy in production if enabled
+  if (USE_PROXY && process.env.NODE_ENV === 'production') {
+    const proxyUrl = `/api/proxy/storage/${cleanPath}`
 
-  // Auto-detect workspace_pictures in the path
-  if (path.includes('workspace_pictures')) {
-    return `${STORAGE_BASE_URL}/storage/workspace_pictures/${cleanPath.replace(/^workspace_pictures\//, '')}`
-  }
+    console.log('Using proxy for image:', proxyUrl)
 
-  // Auto-detect workspace_images in the path
-  if (path.includes('workspace_images')) {
-    return `${STORAGE_BASE_URL}/storage/workspace_images/${cleanPath.replace(/^workspace_images\//, '')}`
+    return proxyUrl
   }
-
-  // Default storage path
-  const finalUrl = `${STORAGE_BASE_URL}/storage/${cleanPath}`
 
   // Debug logging
   if (process.env.NODE_ENV === 'development') {
-    console.log('buildImageUrl:', { path, type, finalUrl })
+    console.log('buildImageUrl:', { path, type, backendUrl })
   }
 
-  return finalUrl
+  return backendUrl
 }
 
 /**
@@ -63,10 +67,31 @@ export const buildAvatarUrl = picture => {
 
   // Handle different avatar path formats
   if (picture.startsWith('/storage')) {
+    const cleanPath = picture.replace(/^\/storage\//, '')
+
+    // Use proxy in production if enabled
+    if (USE_PROXY && process.env.NODE_ENV === 'production') {
+      const proxyUrl = `/api/proxy/storage/${cleanPath}`
+
+      console.log('Using proxy for avatar:', proxyUrl)
+
+      return proxyUrl
+    }
+
     return `${STORAGE_BASE_URL}${picture}`
   }
 
-  const finalUrl = `${STORAGE_BASE_URL}/storage/${picture.replace(/^\/+/, '')}`
+  const cleanPath = picture.replace(/^\/+/, '')
+  const finalUrl = `${STORAGE_BASE_URL}/storage/${cleanPath}`
+
+  // Use proxy in production if enabled
+  if (USE_PROXY && process.env.NODE_ENV === 'production') {
+    const proxyUrl = `/api/proxy/storage/${cleanPath}`
+
+    console.log('Using proxy for avatar:', proxyUrl)
+
+    return proxyUrl
+  }
 
   // Debug logging
   if (process.env.NODE_ENV === 'development') {
