@@ -177,11 +177,7 @@ const SpaceDetails = ({ id, user }) => {
       opening_hours: workspace.opening_hours || 'N/A',
       user_id: workspace.user_id,
       availability,
-      picture: workspace.picture
-        ? workspace.picture.startsWith('/storage/')
-          ? `${STORAGE_BASE_URL}${workspace.picture}`
-          : `${STORAGE_BASE_URL}/storage/${workspace.picture}`
-        : '/images/spaces/default.png',
+      picture: buildImageUrl(workspace.picture) || '/images/spaces/default.png',
       is_active: workspace.is_active ?? true,
       images: images.length > 0 ? images : ['/images/spaces/default.png'],
       verified: true,

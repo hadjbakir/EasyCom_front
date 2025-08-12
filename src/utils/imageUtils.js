@@ -28,8 +28,25 @@ export const buildImageUrl = (path, type = null) => {
     return `${STORAGE_BASE_URL}/storage/workspace_pictures/${cleanPath}`
   }
 
+  // Auto-detect workspace_pictures in the path
+  if (path.includes('workspace_pictures')) {
+    return `${STORAGE_BASE_URL}/storage/workspace_pictures/${cleanPath.replace(/^workspace_pictures\//, '')}`
+  }
+
+  // Auto-detect workspace_images in the path
+  if (path.includes('workspace_images')) {
+    return `${STORAGE_BASE_URL}/storage/workspace_images/${cleanPath.replace(/^workspace_images\//, '')}`
+  }
+
   // Default storage path
-  return `${STORAGE_BASE_URL}/storage/${cleanPath}`
+  const finalUrl = `${STORAGE_BASE_URL}/storage/${cleanPath}`
+
+  // Debug logging
+  if (process.env.NODE_ENV === 'development') {
+    console.log('buildImageUrl:', { path, type, finalUrl })
+  }
+
+  return finalUrl
 }
 
 /**
@@ -49,7 +66,14 @@ export const buildAvatarUrl = picture => {
     return `${STORAGE_BASE_URL}${picture}`
   }
 
-  return `${STORAGE_BASE_URL}/storage/${picture.replace(/^\/+/, '')}`
+  const finalUrl = `${STORAGE_BASE_URL}/storage/${picture.replace(/^\/+/, '')}`
+
+  // Debug logging
+  if (process.env.NODE_ENV === 'development') {
+    console.log('buildAvatarUrl:', { picture, finalUrl })
+  }
+
+  return finalUrl
 }
 
 /**

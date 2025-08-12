@@ -26,6 +26,7 @@ const SafeImage = ({
 
   const handleError = () => {
     console.warn(`Image failed to load: ${imageSrc}`)
+    console.warn(`Final URL: ${finalSrc}`)
     setImageError(true)
 
     // Try fallback image

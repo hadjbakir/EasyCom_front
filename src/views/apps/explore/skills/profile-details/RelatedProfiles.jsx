@@ -12,6 +12,7 @@ import { ArrowRight } from 'lucide-react'
 
 import OptionMenu from '@core/components/option-menu'
 import apiClient from '@/libs/api'
+import { buildAvatarUrl, buildImageUrl } from '@/utils/imageUtils'
 
 const STORAGE_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
 
@@ -69,9 +70,8 @@ const RelatedProfiles = ({ currentProfileId, currentSkillDomain, currentSkills }
               id: provider.id.toString(),
               name: provider.user?.full_name || `Provider ${provider.id}`,
               avatar:
-                provider.pictures?.length > 0
-                  ? `${STORAGE_BASE_URL}${provider.pictures[0].picture}`
-                  : '/images/avatars/1.png',
+                buildAvatarUrl(provider.user?.picture) ||
+                (provider.pictures?.length > 0 ? buildImageUrl(provider.pictures[0].picture) : '/images/avatars/1.png'),
               designation: provider.skill_domain?.name
                 ? `${provider.skill_domain.name.replace(' Development', ' Developer')}`
                 : 'Unknown',

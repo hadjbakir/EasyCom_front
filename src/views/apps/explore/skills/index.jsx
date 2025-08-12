@@ -27,6 +27,7 @@ import { Bookmark } from '@mui/icons-material'
 import OptionMenu from '@core/components/option-menu'
 import CustomIconButton from '@core/components/mui/IconButton'
 import apiClient from '@/libs/api'
+import { buildAvatarUrl, buildImageUrl } from '@/utils/imageUtils'
 
 // Base URL for static files
 const STORAGE_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
@@ -74,13 +75,8 @@ const SkillProviders = () => {
             ? `${provider.skill_domain.name.replace(' Development', ' Developer')}`
             : 'Unknown',
           avatar:
-            provider.pictures?.length > 0
-              ? `${STORAGE_BASE_URL}${provider.pictures[0].picture}`
-              : provider.user?.picture
-                ? provider.user.picture.startsWith('/storage')
-                  ? `${STORAGE_BASE_URL}${provider.user.picture}`
-                  : `${STORAGE_BASE_URL}/storage${provider.user.picture}`
-                : '/images/avatars/1.png',
+            buildAvatarUrl(provider.user?.picture) ||
+            (provider.pictures?.length > 0 ? buildImageUrl(provider.pictures[0].picture) : '/images/avatars/1.png'),
           rating:
             provider.reviews?.length > 0
               ? provider.reviews.reduce((acc, review) => acc + review.rating, 0) / provider.reviews.length

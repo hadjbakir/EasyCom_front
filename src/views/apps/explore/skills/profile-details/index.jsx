@@ -10,6 +10,7 @@ import apiClient from '@/libs/api'
 import ProfileHeader from './ProfileHeader'
 import ProfileTabs from './ProfileTabs'
 import RelatedProfiles from './RelatedProfiles'
+import { buildAvatarUrl, buildImageUrl } from '@/utils/imageUtils'
 
 const STORAGE_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
 
@@ -63,9 +64,7 @@ const ProfileDetails = ({ user }) => {
         const reviews = (provider.reviews || []).map(review => ({
           id: review.id.toString(),
           author: review.user?.full_name || `User ${review.user_id}`,
-          avatar: review.user?.picture
-            ? `${STORAGE_BASE_URL}/storage${review.user.picture}`
-            : '/images/avatars/default.png',
+          avatar: buildAvatarUrl(review.user?.picture) || '/images/avatars/default.png',
           date: review.created_at
             ? new Date(review.created_at).toLocaleDateString('en-US', {
                 month: 'short',
@@ -82,9 +81,7 @@ const ProfileDetails = ({ user }) => {
           replyUser: review.reply_user_id
             ? {
                 name: review.reply_user?.full_name || `User ${review.reply_user_id}`,
-                avatar: review.reply_user?.picture
-                  ? `${STORAGE_BASE_URL}/storage${review.reply_user.picture}`
-                  : '/images/avatars/default.png'
+                avatar: buildAvatarUrl(review.reply_user?.picture) || '/images/avatars/default.png'
               }
             : null
         }))
@@ -97,13 +94,9 @@ const ProfileDetails = ({ user }) => {
           designation: provider.skill_domain?.name
             ? `${provider.skill_domain.name.replace(' Development', ' Developer')}`
             : 'Unknown',
-          avatar: provider.user?.picture
-            ? provider.user.picture.startsWith('/storage')
-                ? `${STORAGE_BASE_URL}${provider.user.picture}`
-                : `${STORAGE_BASE_URL}/storage${provider.user.picture}`
-            : provider.pictures?.length > 0
-                ? `${STORAGE_BASE_URL}${provider.pictures[0].picture}`
-                : '/images/avatars/1.png',
+          avatar:
+            buildAvatarUrl(provider.user?.picture) ||
+            (provider.pictures?.length > 0 ? buildImageUrl(provider.pictures[0].picture) : '/images/avatars/1.png'),
           about: provider.description || 'No description provided',
           startingPrice: provider.starting_price,
           email: provider.user?.email || '',
@@ -139,9 +132,7 @@ const ProfileDetails = ({ user }) => {
               description: project.description || '',
               images: project.pictures.map(p => ({
                 id: p.id,
-                url: p.picture.startsWith('/storage/')
-                  ? `${STORAGE_BASE_URL}${p.picture}`
-                  : `${STORAGE_BASE_URL}/storage/${p.picture}`
+                url: buildImageUrl(p.picture)
               })),
               created_at: project.created_at
             })),
@@ -155,9 +146,7 @@ const ProfileDetails = ({ user }) => {
                       description: '',
                       images: service_provider_pictures.map(p => ({
                         id: p.id,
-                        url: p.picture.startsWith('/storage/')
-                          ? `${STORAGE_BASE_URL}${p.picture}`
-                          : `${STORAGE_BASE_URL}/storage/${p.picture}`
+                        url: buildImageUrl(p.picture)
                       })),
                       created_at: service_provider_pictures[0].created_at
                     }
