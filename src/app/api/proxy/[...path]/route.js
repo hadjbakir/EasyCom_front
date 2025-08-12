@@ -18,6 +18,7 @@ export async function GET(request, { params }) {
 
     if (!response.ok) {
       console.error('Proxy error:', response.status, response.statusText)
+
       return new NextResponse('Image not found', { status: 404 })
     }
 
@@ -34,6 +35,7 @@ export async function GET(request, { params }) {
     })
   } catch (error) {
     console.error('Proxy error:', error)
+
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }
